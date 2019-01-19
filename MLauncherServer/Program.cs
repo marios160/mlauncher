@@ -27,7 +27,7 @@ namespace MLauncherServer
                     rdr.Close();
                     foreach (var item in dict)
                     {
-                        shell("iptables","-A INPUT -s " + item.Value + " -j ACCEPT");
+                        shell("iptables","-A INPUT -s " + item.Value + " -p udp --dport 26001 --sport 26015 -j ACCEPT");
                         Console.WriteLine("Added new ip: " + item.Value);
                         query_v("UPDATE user SET status='3' WHERE id='" + item.Key + "';");
                     }
