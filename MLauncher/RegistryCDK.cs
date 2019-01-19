@@ -9,7 +9,7 @@ namespace MLauncher
 {
     class RegistryCDK
     {
-        static public bool addCDK(string cdk, string path)
+        static public bool AddCDK(string cdk, string path)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace MLauncher
             return true;
         }
 
-        static public bool removeCDK()
+        static public bool RemoveCDK()
         {
             try
             {
@@ -45,7 +45,7 @@ namespace MLauncher
             return true;
         }
 
-        static public bool existCDK()
+        static public bool ExistCDK()
         {
             RegistryKey key = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32);
             key = key.OpenSubKey("SOFTWARE");
@@ -57,9 +57,9 @@ namespace MLauncher
             return true;
         }
 
-        static public string getCDK()
+        static public string GetCDK()
         {
-            if (!existCDK())
+            if (!ExistCDK())
             {
                 return "";
             }
@@ -71,7 +71,7 @@ namespace MLauncher
             
         }
 
-        static public bool changeCDK(string cdk)
+        static public bool ChangeCDK(string cdk)
         {
             try
             {
@@ -90,7 +90,7 @@ namespace MLauncher
             return true;
         }
 
-        static public bool changePath(string path)
+        static public bool ChangePath(string path)
         {
             try
             {
@@ -109,7 +109,7 @@ namespace MLauncher
             return true;
         }
 
-        static public bool equals(string cdk)
+        static public bool Equals(string cdk)
         {
             try
             {

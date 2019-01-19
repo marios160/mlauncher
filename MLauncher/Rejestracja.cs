@@ -61,21 +61,21 @@ namespace MLauncher
                     {
 
                         //sprawdzenie i dodanie Klucza cdkey
-                        if (RegistryCDK.existCDK())
+                        if (RegistryCDK.ExistCDK())
                         {
-                            RegistryCDK.changeCDK(cdk);
-                            RegistryCDK.changePath(M.dane.path);
+                            RegistryCDK.ChangeCDK(cdk);
+                            RegistryCDK.ChangePath(M.dane.path);
                         }
                         else
                         {
-                            RegistryCDK.addCDK(cdk, M.dane.path);
+                            RegistryCDK.AddCDK(cdk, M.dane.path);
                         }
 
                         do
                         {
                             values = new NameValueCollection();
                             values["email"] = txtEmail.Text;
-                            values["activatedCode"] = InputBox.show("Activation code", "Enter activation code from email message:");
+                            values["activatedCode"] = InputBox.Show("Activation code", "Enter activation code from email message:");
                             if(values["activatedCode"] == "")
                             {
                                 break;

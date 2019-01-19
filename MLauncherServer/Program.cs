@@ -1,10 +1,10 @@
-﻿using MySql.Data.MySqlClient;
+﻿
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
+
 
 namespace MLauncherServer
 {
@@ -13,11 +13,14 @@ namespace MLauncherServer
         static public MySqlConnection conn;
         static void Main(string[] args)
         {
-            openMysql();
+
+            Thread sniffer = new Thread(new ThreadStart(Sniffer.Start));
+            sniffer.Start();
+            OpenMysql();
             Dictionary<int, string> dict = new Dictionary<int, string>();
             do
             {
-                MySqlDataReader rdr =  query("SELECT id, ip FROM user WHERE status='2';");
+                MySqlDataReader rdr =  Query("SELECT id, ip FROM user WHERE status='2';");
                 if (rdr.HasRows)
                 {
                     while (rdr.Read())
@@ -27,9 +30,9 @@ namespace MLauncherServer
                     rdr.Close();
                     foreach (var item in dict)
                     {
-                        shell("iptables","-A INPUT -s " + item.Value + " -p udp --dport 26001 --sport 26015 -j ACCEPT");
+                        Shell("iptables","-A INPUT -s " + item.Value + " -p udp --dport 26001 --sport 26015 -j ACCEPT");
                         Console.WriteLine("Added new ip: " + item.Value);
-                        query_v("UPDATE user SET status='3' WHERE id='" + item.Key + "';");
+                        Query_v("UPDATE user SET status='3' WHERE id='" + item.Key + "';");
                     }
                     dict.Clear();
                 }
@@ -39,10 +42,10 @@ namespace MLauncherServer
                 }
                 System.Threading.Thread.Sleep(2000);
             } while (true);
-            closeMysql();
+            CloseMysql();
         }
 
-        static public void openMysql()
+        static public void OpenMysql()
         {
             string connStr = "server=185.238.74.50;user=root;database=igi2;port=3306;password=XedeX160!";
             conn = new MySqlConnection(connStr);
@@ -59,19 +62,19 @@ namespace MLauncherServer
 
         }
 
-        static public void closeMysql()
+        static public void CloseMysql()
         {
             conn.Close();
         }
 
-        static public MySqlDataReader query(string sql)
+        static public MySqlDataReader Query(string sql)
         { 
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();      
             return rdr;
         }
 
-        static public void query_v(string sql)
+        static public void Query_v(string sql)
         {
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();
@@ -79,7 +82,7 @@ namespace MLauncherServer
 
         }
 
-        static public void shell(string prog, string command)
+        static public void Shell(string prog, string command)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo() { FileName = prog, Arguments = command, };
             Process proc = new Process() { StartInfo = startInfo, };

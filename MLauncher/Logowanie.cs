@@ -35,7 +35,7 @@ namespace MLauncher
                 var values = new NameValueCollection();
                 values["email"] = txtEmail.Text;
                 values["word"] = M.CalculateMD5Hash(txtPass.Text);
-                values["cdk"] = M.CalculateMD5Hash(RegistryCDK.getCDK());
+                values["cdk"] = M.CalculateMD5Hash(RegistryCDK.GetCDK());
 
                 var response = client.UploadValues("http://185.238.74.50/mlauncher/login.php", values);
                 var responseString = Encoding.Default.GetString(response);
@@ -45,7 +45,7 @@ namespace MLauncher
                     {
                         values = new NameValueCollection();
                         values["email"] = txtEmail.Text;
-                        values["activatedCode"] = InputBox.show("Activation code", "Enter activation code from email message:");
+                        values["activatedCode"] = InputBox.Show("Activation code", "Enter activation code from email message:");
                         if (values["activatedCode"] == "")
                         {
                             break;
@@ -69,8 +69,8 @@ namespace MLauncher
                 else if (responseString.Contains("cdk="))
                 {
                     string cdk = responseString.Substring(responseString.IndexOf("cdk=") + 4, 19);
-                    RegistryCDK.removeCDK();
-                    RegistryCDK.addCDK(cdk,M.dane.path);
+                    RegistryCDK.RemoveCDK();
+                    RegistryCDK.AddCDK(cdk,M.dane.path);
                     M.dane.login = true;
                     this.Close();
                 }

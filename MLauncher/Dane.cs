@@ -24,7 +24,7 @@ namespace MLauncher
             nick = "MJones";
         }
 
-        public bool checkRootFiles()
+        public bool CheckRootFiles()
         {
             if (!File.Exists(path + "\\igi2.exe"))
             {

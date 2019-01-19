@@ -20,7 +20,7 @@ namespace MLauncher
             this.Text = title;
         }
 
-        static public string show(string title, string text)
+        static public string Show(string title, string text)
         {
             response = "";
             new InputBox(title, text).ShowDialog();
