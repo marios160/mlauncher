@@ -19,10 +19,10 @@ namespace MLauncher
         static void Main()
         {
             dane = new Dane();
-            //if (!dane.checkRootFiles())
-            //{
-            //    return;
-            //}
+            if (!dane.CheckRootFiles())
+            {
+                return;
+            }
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Logowanie());

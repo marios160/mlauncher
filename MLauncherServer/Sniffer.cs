@@ -1,6 +1,7 @@
-﻿using SharpPcap;
-using SharpPcap.LibPcap;
+﻿using PcapDotNet.Core;
+using SharpPcap;
 using System;
+using System.Collections.Generic;
 
 namespace MLauncherServer
 {
@@ -8,56 +9,31 @@ namespace MLauncherServer
     {
         public static void Start()
         {
-            var devices = LibPcapLiveDeviceList.Instance;
+            // Print SharpPcap version 
+            string ver = SharpPcap.Version.VersionString;
+            Console.WriteLine("SharpPcap {0}, Example1.IfList.cs", ver);
 
-            if (devices.Count == 0)
+            // Retrieve the device list
+            CaptureDeviceList devices = CaptureDeviceList.Instance;
+
+            // If no devices were found print an error
+            if (devices.Count < 1)
             {
-                Console.WriteLine("No devices found, are you running as admin(if in Windows), or root(if in Linux/Mac)?");
+                Console.WriteLine("No devices were found on this machine");
                 return;
             }
 
-            Console.WriteLine("Available AirPcap devices:");
-            for (var i = 0; i < devices.Count; i++)
-            {
-                Console.WriteLine("[{0}] - {1}", i, devices[i].Name);
-            }
+            Console.WriteLine("\nThe following devices are available on this machine:");
+            Console.WriteLine("----------------------------------------------------\n");
 
-            Console.WriteLine();
-            Console.Write("-- Please choose a device to capture: ");
-            var devIndex = int.Parse(Console.ReadLine());
+            // Print out the available network devices
+            foreach (ICaptureDevice dev in devices)
+                Console.WriteLine("{0}\n", dev.ToString());
 
-            var device = devices[devIndex];
-
-            device.Open();
-
-            device.OnPacketArrival += new PacketArrivalEventHandler(Device_OnPacketArrival);
-
-            device.StartCapture();
-
-            Console.WriteLine("Press Enter to exit");
+            Console.Write("Hit 'Enter' to exit...");
             Console.ReadLine();
-
-            device.StopCapture();
-
-            Console.WriteLine("-- Capture stopped.");
-
-            // Print out the device statistics
-            Console.WriteLine(device.Statistics.ToString());
-
-            // Close the pcap device
-            device.Close();
         }
 
-        private static void Device_OnPacketArrival(object sender, CaptureEventArgs e)
-        {
-            var time = e.Packet.Timeval.Date;
-            var len = e.Packet.Data.Length;
-            Console.WriteLine("{0}:{1}:{2},{3} Len={4}",
-                time.Hour, time.Minute, time.Second, time.Millisecond, len);
-            Console.WriteLine(e.Packet.ToString());
-
-            var p = PacketDotNet.Packet.ParsePacket(e.Packet.LinkLayerType, e.Packet.Data);
-            Console.WriteLine(p.ToString(PacketDotNet.StringOutputType.VerboseColored));
-        }
+        
     }
 }

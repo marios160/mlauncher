@@ -28,7 +28,7 @@ namespace MLauncher
         {
             if (!File.Exists(path + "\\igi2.exe"))
             {
-                MessageBox.Show(path+ "igi2.exe not exist!\n" +
+                MessageBox.Show("igi2.exe not exist!\n" +
                     "Place Mlauncher in IGI2 pc");
                 return false;
             }
