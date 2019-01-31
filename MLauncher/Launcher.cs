@@ -17,29 +17,32 @@ namespace MLauncher
         public Launcher()
         {
             InitializeComponent();
-            lblEmail.Text = M.dane.email;
-            txtNick.Text = M.dane.nick;
+            lblEmail.Text = M.dane.Email;
+            txtNick.Text = M.dane.Nick;
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
+            M.dane.Login = false;
+            M.dane.Zakoduj();
+            M.Serialize(M.dane);
             Close();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if(M.dane.nick == txtNick.Text)
+            if(M.dane.Nick == txtNick.Text)
             {
                 return;
             }
 
-            M.dane.nick = txtNick.Text;
+            M.dane.Nick = txtNick.Text;
             var client = new WebClient();
 
             var values = new NameValueCollection();
-            values["email"] = M.dane.email;
-            values["word"] = M.dane.pass;
-            values["nick"] = M.dane.nick;
+            values["email"] = M.dane.Email;
+            values["word"] = M.dane.Pass;
+            values["nick"] = M.dane.Nick;
             var response = client.UploadValues("http://185.238.74.50/mlauncher/changeNick.php", values);
             var responseString = Encoding.Default.GetString(response);
             MessageBox.Show(responseString);
@@ -50,8 +53,8 @@ namespace MLauncher
         {
             var client = new WebClient();
             var values = new NameValueCollection();
-            values["email"] = M.dane.email;
-            values["word"] = M.dane.pass;
+            values["email"] = M.dane.Email;
+            values["word"] = M.dane.Pass;
             var response = client.UploadValues("http://185.238.74.50/mlauncher/getStatus.php", values);
             var responseString = Encoding.Default.GetString(response);
             var status = responseString.Split('\\');
@@ -68,13 +71,13 @@ namespace MLauncher
         {
             var client = new WebClient();
             var values = new NameValueCollection();
-            values["email"] = M.dane.email;
-            values["word"] = M.dane.pass;
+            values["email"] = M.dane.Email;
+            values["word"] = M.dane.Pass;
             var response = client.UploadValues("http://185.238.74.50/mlauncher/join.php", values);
             var responseString = Encoding.Default.GetString(response);
             if (responseString.Equals("JOIN!"))
             {
-                System.Diagnostics.Process.Start("igi2.exe", "ip185.238.74.50 port" + lblHostport.Text + " player\"" + M.dane.nick + "\"");
+                System.Diagnostics.Process.Start("igi2.exe", "ip185.238.74.50 port" + lblHostport.Text + " player\"" + M.dane.Nick + "\"");
             }
         }
     }

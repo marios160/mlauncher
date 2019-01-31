@@ -64,11 +64,11 @@ namespace MLauncher
                         if (RegistryCDK.ExistCDK())
                         {
                             RegistryCDK.ChangeCDK(cdk);
-                            RegistryCDK.ChangePath(M.dane.path);
+                            RegistryCDK.ChangePath(M.dane.Path);
                         }
                         else
                         {
-                            RegistryCDK.AddCDK(cdk, M.dane.path);
+                            RegistryCDK.AddCDK(cdk, M.dane.Path);
                         }
 
                         do

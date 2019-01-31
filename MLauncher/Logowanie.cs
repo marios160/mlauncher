@@ -17,6 +17,8 @@ namespace MLauncher
         public Logowanie()
         {
             InitializeComponent();
+            txtEmail.Text = M.dane.Email;
+            txtPass.Text = M.dane.RawPass;
         }
 
         private void btnRegister_Click(object sender, EventArgs e)
@@ -54,29 +56,30 @@ namespace MLauncher
                         responseString = Encoding.Default.GetString(response);
                         MessageBox.Show(responseString);
                     } while (!responseString.Equals("Activated!"));
-                    M.dane.login = false;
+                    M.dane.Login = false;
 
                 }
                 else if(responseString.Contains("nick="))
                 {
                     string nick = responseString.Substring(responseString.IndexOf("nick=") + 5, responseString.IndexOf("=kcin") - 5);
-                    M.dane.login = true;
-                    M.dane.email = txtEmail.Text;
-                    M.dane.nick = nick;
-                    M.dane.pass = M.CalculateMD5Hash(txtPass.Text);
+                    M.dane.Login = true;
+                    M.dane.Email = txtEmail.Text;
+                    M.dane.Nick = nick;
+                    M.dane.RawPass = txtPass.Text;
+                    M.dane.Pass = M.CalculateMD5Hash(txtPass.Text);
                     this.Close();
                 }
                 else if (responseString.Contains("cdk="))
                 {
                     string cdk = responseString.Substring(responseString.IndexOf("cdk=") + 4, 19);
                     RegistryCDK.RemoveCDK();
-                    RegistryCDK.AddCDK(cdk,M.dane.path);
-                    M.dane.login = true;
+                    RegistryCDK.AddCDK(cdk,M.dane.Path);
+                    M.dane.Login = true;
                     this.Close();
                 }
                 else
                 {
-                    M.dane.login = false;
+                    M.dane.Login = false;
                     MessageBox.Show(responseString);
                 }
 
