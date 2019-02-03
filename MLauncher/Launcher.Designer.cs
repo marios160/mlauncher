@@ -37,12 +37,14 @@
             this.btnJoin = new System.Windows.Forms.Button();
             this.btnLogout = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblSlash = new System.Windows.Forms.Label();
             this.lblMaxplayers = new System.Windows.Forms.Label();
             this.lblNumplayers = new System.Windows.Forms.Label();
             this.lblMapname = new System.Windows.Forms.Label();
             this.lblHostport = new System.Windows.Forms.Label();
             this.lblHostname = new System.Windows.Forms.Label();
-            this.lblSlash = new System.Windows.Forms.Label();
+            this.lblVersion = new System.Windows.Forms.Label();
+            this.chbNofity = new System.Windows.Forms.CheckBox();
             this.lblTimeleft = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -132,12 +134,21 @@
             this.groupBox1.Controls.Add(this.lblMapname);
             this.groupBox1.Controls.Add(this.lblHostport);
             this.groupBox1.Controls.Add(this.lblHostname);
-            this.groupBox1.Location = new System.Drawing.Point(12, 126);
+            this.groupBox1.Location = new System.Drawing.Point(12, 138);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(313, 223);
+            this.groupBox1.Size = new System.Drawing.Size(313, 211);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Status";
+            // 
+            // lblSlash
+            // 
+            this.lblSlash.AutoSize = true;
+            this.lblSlash.Location = new System.Drawing.Point(195, 34);
+            this.lblSlash.Name = "lblSlash";
+            this.lblSlash.Size = new System.Drawing.Size(12, 13);
+            this.lblSlash.TabIndex = 5;
+            this.lblSlash.Text = "/";
             // 
             // lblMaxplayers
             // 
@@ -185,29 +196,42 @@
             this.lblHostname.TabIndex = 0;
             this.lblHostname.Text = "Polski Serwer IGI 2";
             // 
-            // lblSlash
+            // lblVersion
             // 
-            this.lblSlash.AutoSize = true;
-            this.lblSlash.Location = new System.Drawing.Point(195, 34);
-            this.lblSlash.Name = "lblSlash";
-            this.lblSlash.Size = new System.Drawing.Size(12, 13);
-            this.lblSlash.TabIndex = 5;
-            this.lblSlash.Text = "/";
+            this.lblVersion.AutoSize = true;
+            this.lblVersion.Location = new System.Drawing.Point(13, 358);
+            this.lblVersion.Name = "lblVersion";
+            this.lblVersion.Size = new System.Drawing.Size(68, 13);
+            this.lblVersion.TabIndex = 10;
+            this.lblVersion.Text = "version 1.0.0";
+            // 
+            // chbNofity
+            // 
+            this.chbNofity.AutoSize = true;
+            this.chbNofity.Location = new System.Drawing.Point(20, 115);
+            this.chbNofity.Name = "chbNofity";
+            this.chbNofity.Size = new System.Drawing.Size(133, 17);
+            this.chbNofity.TabIndex = 11;
+            this.chbNofity.Text = "Notify me if players join";
+            this.chbNofity.UseVisualStyleBackColor = true;
+            this.chbNofity.CheckedChanged += new System.EventHandler(this.chbNofity_CheckedChanged);
             // 
             // lblTimeleft
             // 
             this.lblTimeleft.AutoSize = true;
-            this.lblTimeleft.Location = new System.Drawing.Point(250, 34);
+            this.lblTimeleft.Location = new System.Drawing.Point(231, 34);
             this.lblTimeleft.Name = "lblTimeleft";
             this.lblTimeleft.Size = new System.Drawing.Size(34, 13);
             this.lblTimeleft.TabIndex = 6;
-            this.lblTimeleft.Text = "14:23";
+            this.lblTimeleft.Text = "00:00";
             // 
             // Launcher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(344, 365);
+            this.ClientSize = new System.Drawing.Size(344, 388);
+            this.Controls.Add(this.chbNofity);
+            this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnLogout);
             this.Controls.Add(this.btnJoin);
@@ -242,7 +266,9 @@
         private System.Windows.Forms.Label lblMapname;
         private System.Windows.Forms.Label lblMaxplayers;
         private System.Windows.Forms.Label lblNumplayers;
-        private System.Windows.Forms.Label lblTimeleft;
         private System.Windows.Forms.Label lblSlash;
+        private System.Windows.Forms.Label lblVersion;
+        private System.Windows.Forms.CheckBox chbNofity;
+        private System.Windows.Forms.Label lblTimeleft;
     }
 }

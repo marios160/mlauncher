@@ -17,6 +17,7 @@ namespace MLauncher
         private string rawPass;
         private bool login;
         private string nick;
+        private bool notify;
 
 
         public Dane()
@@ -27,6 +28,7 @@ namespace MLauncher
             Email = "";
             Pass = "";
             RawPass = "";
+            Notify = false;
 
         }
 
@@ -36,6 +38,7 @@ namespace MLauncher
         public string Email { get => email; set => email = value; }
         public string Path { get => path; set => path = value; }
         public string RawPass { get => rawPass; set => rawPass = value; }
+        public bool Notify { get => notify; set => notify = value; }
 
         public bool CheckRootFiles()
         {

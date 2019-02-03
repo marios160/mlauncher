@@ -99,6 +99,7 @@
     <Compile Include="M.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />
+    <Compile Include="Status.cs" />
     <Compile Include="ValidatorExtensions.cs" />
     <EmbeddedResource Include="InputBox.resx">
       <DependentUpon>InputBox.cs</DependentUpon>

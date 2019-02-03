@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -14,36 +17,49 @@ namespace MLauncher
     static class M
     {
         static public Dane dane;
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
+        static public Thread nofifyThread;
+        static public string version = "1.1.0";
+        static public Launcher launcher;
+
         [STAThread]
         static void Main()
         {
+            Console.WriteLine("Debug Console");
+            if (CheckUpdates())
+            {
+                Update();
+                return;
+            }
             dane = (Dane)M.Deserialize();
             if(dane == null)
             {
                 dane = new Dane();
             }
-            dane.Odkoduj();
+            else
+            {
+                dane.Odkoduj();
+            }
 
-            //if (!dane.CheckRootFiles())
-            //{
-            //    return;
-            //}
+
+            if (!dane.CheckRootFiles())
+            {
+                return;
+            }
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             if (!M.dane.Login)
             {
-                    Application.Run(new Logowanie());
+                Application.Run(new Logowanie());
             }
 
             if (M.dane.Login)
             {
+
                 dane.Zakoduj();
                 M.Serialize(dane);
                 dane.Odkoduj();
-                Application.Run(new Launcher());
+                launcher = new Launcher();
+                Application.Run(launcher);
             }
 
         }
@@ -178,6 +194,35 @@ namespace MLauncher
                 }
             }
             return wynik;
+        }
+
+        public static bool CheckUpdates()
+        {
+            File.Delete("MUpdater.exe");
+            var values = new NameValueCollection();
+            values["version"] = M.version;
+            string odp = PostRequest("http://185.238.74.50/mlauncher/version.php", values);
+            if(odp.Equals("Please update MLauncher!"))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public static void Update()
+        {
+            var client = new WebClient();
+            client.DownloadFile("http://185.238.74.50/mlauncher/MUpdater.exe", "MUpdater.exe");
+            System.Diagnostics.Process.Start("MUpdater.exe");
+            return;
+        }
+
+        public static string PostRequest(string addr, NameValueCollection values)
+        {
+            var client = new WebClient();
+            var response = client.UploadValues(addr, values);
+            var responseString = Encoding.Default.GetString(response);
+            return responseString;
         }
     }
 }

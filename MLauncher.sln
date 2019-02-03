@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IptablesCmd", "IptablesCmd\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MLauncherServer.Core", "MLauncherServer.Core\MLauncherServer.Core.csproj", "{F8463042-90A1-4DC7-9374-C7B01E6063E5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MUpdater", "MUpdater\MUpdater.csproj", "{CE04B039-CF35-4D5F-8037-83D088848F98}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{F8463042-90A1-4DC7-9374-C7B01E6063E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8463042-90A1-4DC7-9374-C7B01E6063E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8463042-90A1-4DC7-9374-C7B01E6063E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE04B039-CF35-4D5F-8037-83D088848F98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE04B039-CF35-4D5F-8037-83D088848F98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE04B039-CF35-4D5F-8037-83D088848F98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE04B039-CF35-4D5F-8037-83D088848F98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
