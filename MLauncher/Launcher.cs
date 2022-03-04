@@ -18,34 +18,33 @@ namespace MLauncher
         public Launcher()
         {
             InitializeComponent();
-            SetStatus(Status.GetStatus());
-            lblVersion.Text = "version " + M.version;
-            lblEmail.Text = M.dane.Email;
-            txtNick.Text = M.dane.Nick;
+            lblVersion.Text = "version " + Main.version;
+            lblEmail.Text = Main.dane.Email;
+            txtNick.Text = Main.dane.Nick;
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
-            M.dane.Login = false;
-            M.dane.Zakoduj();
-            M.Serialize(M.dane);
+            Main.dane.Login = false;
+            Main.dane.Zakoduj();
+            Main.Serialize(Main.dane);
             Close();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if(M.dane.Nick == txtNick.Text)
+            if(Main.dane.Nick == txtNick.Text)
             {
                 return;
             }
 
-            M.dane.Nick = txtNick.Text;
+            Main.dane.Nick = txtNick.Text;
             var client = new WebClient();
 
             var values = new NameValueCollection();
-            values["email"] = M.dane.Email;
-            values["word"] = M.dane.Pass;
-            values["nick"] = M.dane.Nick;
+            values["email"] = Main.dane.Email;
+            values["word"] = Main.dane.Pass;
+            values["nick"] = Main.dane.Nick;
             var response = client.UploadValues("http://185.238.74.50/mlauncher/changeNick.php", values);
             var responseString = Encoding.Default.GetString(response);
             MessageBox.Show(responseString);
@@ -54,7 +53,7 @@ namespace MLauncher
 
         public void btnStatus_Click(object sender, EventArgs e)
         {
-            SetStatus(Status.GetStatus());
+            SetStatus();
         }
 
         private void btnJoin_Click(object sender, EventArgs e)
@@ -62,86 +61,64 @@ namespace MLauncher
             chbNofity.Checked = false;
             var client = new WebClient();
             var values = new NameValueCollection();
-            values["email"] = M.dane.Email;
-            values["word"] = M.dane.Pass;
-            var response = client.UploadValues("http://185.238.74.50/mlauncher/join.php", values);
+            values["email"] = Main.dane.Email;
+            values["word"] = Main.dane.Pass;
+            var response = client.UploadValues(
+                "http://185.238.74.50/mlauncher/join.php", values);
             var responseString = Encoding.Default.GetString(response);
             if (responseString.Equals("JOIN!"))
             {
-                System.Diagnostics.Process.Start("igi2.exe", "ip185.238.74.50 port" + lblHostport.Text + " player\"" + M.dane.Nick + "\"");
+                System.Diagnostics.Process.Start("igi2.exe", 
+                    "ip185.238.74.50 port" + lblHostport.Text 
+                    + " player\"" + Main.dane.Nick + "\"");
             }
         }
 
         private void chbNofity_CheckedChanged(object sender, EventArgs e)
         {
-            M.dane.Notify = chbNofity.Checked;
-            if (chbNofity.Checked)
-            {
-                Console.WriteLine("Sprawdzanie true");
-
-                Status status = new Status();
-                M.nofifyThread = new Thread(new ThreadStart(status.CheckStatus));
-                M.nofifyThread.Start();
-                
-            } else
-            {
-                Console.WriteLine("Sprawdzanie false null");
-
-                if (M.nofifyThread != null)
-                {
-                    Console.WriteLine("Sprawdzanie false");
-
-                    M.nofifyThread.Abort();
-                    M.nofifyThread = null;
-                }
-            }
-                
+            Main.dane.Notify = chbNofity.Checked;     
         }
 
-        public void SetStatus(string[] status)
+        public void SetStatus()
         {
-          
-                lblHostname.Text = status[8];
-                lblHostport.Text = status[10];
-                lblTimeleft.Text = status[28];
-                lblMapname.Text = status[12];
-                lblNumplayers.Text = status[16];
-                lblMaxplayers.Text = status[18];
+
+                lblHostname.Text = Main.status.ServerInfo.Hostname;
+                lblHostport.Text = Main.status.ServerInfo.Hostport;
+                lblTimeleft.Text = Main.status.ServerInfo.Timeleft;
+                lblMapname.Text = Main.status.ServerInfo.Mapname;
+                lblNumplayers.Text = Main.status.ServerInfo.Numplayers.ToString();
+                lblMaxplayers.Text = Main.status.ServerInfo.Maxplayers.ToString();
+            lstPlayers.Items.Clear();
+            foreach (var player in Main.status.PlayersInfo)
+            {
+                string[] row = { player.Id.ToString(), player.Nick, player.Kills.ToString(), player.Deaths.ToString(), player.Ping, player.Team};
+                lstPlayers.Items.Add(new ListViewItem(row));
+            }
 
         }
 
-        public void SetStatusInvoke(string [] status)
+        public void SetStatusInvoke()
         {
             try
             {
-
-                lblHostname.Invoke(new Action(()=>lblHostname.Text = status[8]));
-                lblHostport.Invoke(new Action(delegate ()
+                lblHostname.Invoke(new Action(() => lblHostname.Text = Main.status.ServerInfo.Hostname));
+                lblHostport.Invoke(new Action(() => lblHostport.Text = Main.status.ServerInfo.Hostport));
+                lblTimeleft.Invoke(new Action(() => lblTimeleft.Text = Main.status.ServerInfo.Timeleft));
+                lblMapname.Invoke(new Action(() => lblMapname.Text = Main.status.ServerInfo.Mapname));
+                lblNumplayers.Invoke(new Action(() => lblNumplayers.Text = Main.status.ServerInfo.Numplayers.ToString()));
+                lblMaxplayers.Invoke(new Action(() => lblMaxplayers.Text = Main.status.ServerInfo.Maxplayers.ToString()));
+                lstPlayers.Invoke(new Action(() => lstPlayers.Items.Clear()));
+                foreach (var player in Main.status.PlayersInfo)
                 {
-                    lblHostport.Text = status[10];
-                }));
-                lblTimeleft.Invoke(new Action(delegate ()
-                {
-                    lblTimeleft.Text = status[28];
-                }));
-                lblMapname.Invoke(new Action(delegate ()
-                {
-                    lblMapname.Text = status[12];
-                }));
-                lblNumplayers.Invoke(new Action(delegate ()
-                {
-                    lblNumplayers.Text = status[16];
-                }));
-                lblMaxplayers.Invoke(new Action(delegate ()
-                {
-                    lblMaxplayers.Text = status[18];
-                }));
+                    string[] row = { player.Id.ToString(), player.Nick, player.Kills.ToString(), player.Deaths.ToString(), player.Ping, player.Team };
+                    lstPlayers.Invoke(new Action(() =>  lstPlayers.Items.Add(new ListViewItem(row))));
+                }
             }
             catch (Exception)
             {
-                if(M.nofifyThread != null)
+                if(Main.statusThread != null)
                 {
-                    M.nofifyThread.Abort();
+                    Main.statusThread.Abort();
                 } 
                 
             }

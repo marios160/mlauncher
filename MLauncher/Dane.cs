@@ -14,7 +14,6 @@ namespace MLauncher
         private string path;
         private string email;
         private string pass;
-        private string rawPass;
         private bool login;
         private string nick;
         private bool notify;
@@ -22,12 +21,12 @@ namespace MLauncher
 
         public Dane()
         {
-            this.Path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            this.Path = System.IO.Path.GetDirectoryName(
+                System.Reflection.Assembly.GetExecutingAssembly().Location);
             Login = false;
             Nick = "MJones";
             Email = "";
             Pass = "";
-            RawPass = "";
             Notify = false;
 
         }
@@ -37,7 +36,6 @@ namespace MLauncher
         public string Pass { get => pass; set => pass = value; }
         public string Email { get => email; set => email = value; }
         public string Path { get => path; set => path = value; }
-        public string RawPass { get => rawPass; set => rawPass = value; }
         public bool Notify { get => notify; set => notify = value; }
 
         public bool CheckRootFiles()
@@ -77,21 +75,19 @@ namespace MLauncher
         
         public void Zakoduj()
         {
-            this.path = M.Zakoduj("mlauncher", this.path);
-            this.email = M.Zakoduj("mlauncher", this.email);
-            this.pass = M.Zakoduj("mlauncher", this.pass);
-            this.rawPass = M.Zakoduj("mlauncher", this.rawPass);
-            this.nick = M.Zakoduj("mlauncher", this.nick);
+            this.path = Main.Zakoduj("mlauncher", this.path);
+            this.email = Main.Zakoduj("mlauncher", this.email);
+            this.pass = Main.Zakoduj("mlauncher", this.pass);
+            this.nick = Main.Zakoduj("mlauncher", this.nick);
 
         }
 
         public void Odkoduj()
         {
-            this.path = M.Odkoduj("mlauncher", this.path);
-            this.email = M.Odkoduj("mlauncher", this.email);
-            this.pass = M.Odkoduj("mlauncher", this.pass);
-            this.rawPass = M.Odkoduj("mlauncher", this.rawPass);
-            this.nick = M.Odkoduj("mlauncher", this.nick);
+            this.path = Main.Odkoduj("mlauncher", this.path);
+            this.email = Main.Odkoduj("mlauncher", this.email);
+            this.pass = Main.Odkoduj("mlauncher", this.pass);
+            this.nick = Main.Odkoduj("mlauncher", this.nick);
 
         }
 

@@ -14,11 +14,13 @@ namespace MLauncher
 {
     public partial class Logowanie : Form
     {
+        bool isMd5Pass = false;
         public Logowanie()
         {
             InitializeComponent();
-            txtEmail.Text = M.dane.Email;
-            txtPass.Text = M.dane.RawPass;
+            txtEmail.Text = Main.dane.Email;
+            txtPass.Text = Main.dane.Pass;
+            isMd5Pass = true;
         }
 
         private void btnRegister_Click(object sender, EventArgs e)
@@ -36,8 +38,13 @@ namespace MLauncher
             {
                 var values = new NameValueCollection();
                 values["email"] = txtEmail.Text;
-                values["word"] = M.CalculateMD5Hash(txtPass.Text);
-                values["cdk"] = M.CalculateMD5Hash(RegistryCDK.GetCDK());
+                if (isMd5Pass)
+                {
+                    values["word"] = txtPass.Text;
+                } else {
+                    values["word"] = Main.CalculateMD5Hash(txtPass.Text);
+                }
+                values["cdk"] = Main.CalculateMD5Hash(RegistryCDK.GetCDK());
 
                 var response = client.UploadValues("http://185.238.74.50/mlauncher/login.php", values);
                 var responseString = Encoding.Default.GetString(response);
@@ -56,30 +63,34 @@ namespace MLauncher
                         responseString = Encoding.Default.GetString(response);
                         MessageBox.Show(responseString);
                     } while (!responseString.Equals("Activated!"));
-                    M.dane.Login = false;
+                    Main.dane.Login = false;
 
                 }
                 else if(responseString.Contains("nick="))
                 {
                     string nick = responseString.Substring(responseString.IndexOf("nick=") + 5, responseString.IndexOf("=kcin") - 5);
-                    M.dane.Login = true;
-                    M.dane.Email = txtEmail.Text;
-                    M.dane.Nick = nick;
-                    M.dane.RawPass = txtPass.Text;
-                    M.dane.Pass = M.CalculateMD5Hash(txtPass.Text);
+                    Main.dane.Login = true;
+                    Main.dane.Email = txtEmail.Text;
+                    Main.dane.Nick = nick;
+                    if (isMd5Pass)
+                    {
+                        Main.dane.Pass = txtPass.Text;
+                    } else {
+                        Main.dane.Pass = Main.CalculateMD5Hash(txtPass.Text);
+                    }
                     this.Close();
                 }
                 else if (responseString.Contains("cdk="))
                 {
                     string cdk = responseString.Substring(responseString.IndexOf("cdk=") + 4, 19);
                     RegistryCDK.RemoveCDK();
-                    RegistryCDK.AddCDK(cdk,M.dane.Path);
-                    M.dane.Login = true;
+                    RegistryCDK.AddCDK(cdk,Main.dane.Path);
+                    Main.dane.Login = true;
                     this.Close();
                 }
                 else
                 {
-                    M.dane.Login = false;
+                    Main.dane.Login = false;
                     MessageBox.Show(responseString);
                 }
 
@@ -114,6 +125,11 @@ namespace MLauncher
                 btnLogin.Focus();
                 btnLogin_Click(new object(), new EventArgs());
             }
+        }
+
+        private void txtPass_TextChanged(object sender, EventArgs e)
+        {
+            isMd5Pass = false;
         }
     }
 }

@@ -50,7 +50,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>MLauncher.M</StartupObject>
+    <StartupObject>MLauncher.Main</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>logo.ico</ApplicationIcon>
@@ -89,6 +89,7 @@
     <Compile Include="Logowanie.Designer.cs">
       <DependentUpon>Logowanie.cs</DependentUpon>
     </Compile>
+    <Compile Include="PlayerInfo.cs" />
     <Compile Include="RegistryCDK.cs" />
     <Compile Include="Rejestracja.cs">
       <SubType>Form</SubType>
@@ -96,9 +97,9 @@
     <Compile Include="Rejestracja.Designer.cs">
       <DependentUpon>Rejestracja.cs</DependentUpon>
     </Compile>
-    <Compile Include="M.cs" />
+    <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Server.cs" />
+    <Compile Include="ServerInfo.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="ValidatorExtensions.cs" />
     <EmbeddedResource Include="InputBox.resx">

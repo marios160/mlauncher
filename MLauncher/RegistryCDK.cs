@@ -13,7 +13,8 @@ namespace MLauncher
         {
             try
             {
-                RegistryKey key = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32);
+                RegistryKey key = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, 
+                    RegistryView.Registry32);
                 key = key.OpenSubKey("SOFTWARE", true);
                 key = key.CreateSubKey("IGI 2 Retail");
                 RegistryKey cdkKey = key.CreateSubKey("CDKey");
@@ -22,10 +23,7 @@ namespace MLauncher
                 key.SetValue("Installdir", path);
             }
             catch (Exception)
-            {
-                return false;
-            }
-           
+            { return false; }
             return true;
         }
 
@@ -38,10 +36,7 @@ namespace MLauncher
                 key.DeleteSubKeyTree("IGI 2 Retail");
             }
             catch (Exception)
-            {
-                return false;
-            }
-
+            { return false;}
             return true;
         }
 
@@ -51,24 +46,19 @@ namespace MLauncher
             key = key.OpenSubKey("SOFTWARE");
             key = key.OpenSubKey("IGI 2 Retail");
             if(key == null)
-            {
-                return false;
-            }
+            { return false;}
             return true;
         }
 
         static public string GetCDK()
         {
             if (!ExistCDK())
-            {
                 return "";
-            }
             RegistryKey key = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32);
             key = key.OpenSubKey("SOFTWARE");
             key = key.OpenSubKey("IGI 2 Retail");
             key = key.OpenSubKey("CDKey");
             return (string) key.GetValue("CDKey");
-            
         }
 
         static public bool ChangeCDK(string cdk)
@@ -80,13 +70,9 @@ namespace MLauncher
                 key = key.OpenSubKey("IGI 2 Retail",true);
                 key = key.OpenSubKey("CDKey", true);
                 key.SetValue("CDKey", cdk);
-
             }
             catch (Exception)
-            {
-                return false;
-            }
-          
+            { return false;}
             return true;
         }
 
@@ -99,13 +85,9 @@ namespace MLauncher
                 key = key.OpenSubKey("IGI 2 Retail", true);
                 key = key.OpenSubKey("Installdir", true);
                 key.SetValue("Installdir", path);
-
             }
             catch (Exception)
-            {
-                return false;
-            }
-
+            { return false;}
             return true;
         }
 
@@ -117,23 +99,14 @@ namespace MLauncher
                 key = key.OpenSubKey("SOFTWARE", true);
                 key = key.OpenSubKey("IGI 2 Retail", true);
                 key = key.OpenSubKey("CDKey", true);
-                string regcdk = M.CalculateMD5Hash((string) key.GetValue("CDKey"));
+                string regcdk = Main.CalculateMD5Hash((string) key.GetValue("CDKey"));
                 if (regcdk.Equals(cdk))
-                {
                     return true;
-                }
                 else
-                {
                     return false;
-                }
-
             }
             catch (Exception)
-            {
-                return false;
-            }
-
-            
+            { return false;}
         }
     }
 }

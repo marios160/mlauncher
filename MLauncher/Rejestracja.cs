@@ -39,19 +39,26 @@ namespace MLauncher
                 lblPassWrong2.Visible = false;
                 Random random = new Random();
                 const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-                String cdk1 =  new string(Enumerable.Repeat(chars, 4).Select(s => s[random.Next(s.Length)]).ToArray());
-                String cdk2 = new string(Enumerable.Repeat(chars, 4).Select(s => s[random.Next(s.Length)]).ToArray());
-                String cdk3 = new string(Enumerable.Repeat(chars, 4).Select(s => s[random.Next(s.Length)]).ToArray());
-                String cdk4 =  new string(Enumerable.Repeat(chars, 4).Select(s => s[random.Next(s.Length)]).ToArray());
-                String cdk = cdk1 + "-" + cdk2 + "-" + cdk3 + "-" + cdk4;
-                String md5cdk = M.CalculateMD5Hash(cdk);
+
+                String cdk = "";
+                for (int i = 0; i < 4; i++)
+                {
+                    cdk += 
+                        new string(Enumerable.Repeat(chars, 4)
+                        .Select(s => s[random.Next(s.Length)])
+                        .ToArray()) 
+                        + '-';
+                }
+                cdk = cdk.Substring(0, 19);
+
+                String md5cdk = Main.CalculateMD5Hash(cdk);
 
 
                 using (var client = new WebClient())
                 {
                     var values = new NameValueCollection();
                     values["email"] = txtEmail.Text;
-                    values["word"] = M.CalculateMD5Hash(txtPass1.Text);
+                    values["word"] = Main.CalculateMD5Hash(txtPass1.Text);
                     values["cdk"] = md5cdk;
                     values["rawcdk"] = cdk;
 
@@ -64,11 +71,11 @@ namespace MLauncher
                         if (RegistryCDK.ExistCDK())
                         {
                             RegistryCDK.ChangeCDK(cdk);
-                            RegistryCDK.ChangePath(M.dane.Path);
+                            RegistryCDK.ChangePath(Main.dane.Path);
                         }
                         else
                         {
-                            RegistryCDK.AddCDK(cdk, M.dane.Path);
+                            RegistryCDK.AddCDK(cdk, Main.dane.Path);
                         }
 
                         do

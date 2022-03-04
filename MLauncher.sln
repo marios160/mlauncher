@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MLauncherServer.Core", "MLa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MUpdater", "MUpdater\MUpdater.csproj", "{CE04B039-CF35-4D5F-8037-83D088848F98}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{DE701119-6DC2-4158-B0A6-2ACFFD06D79B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MServer", "MServer\MServer.csproj", "{38C510BE-3154-492E-9E36-7BAC08CC6B39}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{CE04B039-CF35-4D5F-8037-83D088848F98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE04B039-CF35-4D5F-8037-83D088848F98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE04B039-CF35-4D5F-8037-83D088848F98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE701119-6DC2-4158-B0A6-2ACFFD06D79B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE701119-6DC2-4158-B0A6-2ACFFD06D79B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE701119-6DC2-4158-B0A6-2ACFFD06D79B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE701119-6DC2-4158-B0A6-2ACFFD06D79B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38C510BE-3154-492E-9E36-7BAC08CC6B39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38C510BE-3154-492E-9E36-7BAC08CC6B39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38C510BE-3154-492E-9E36-7BAC08CC6B39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38C510BE-3154-492E-9E36-7BAC08CC6B39}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

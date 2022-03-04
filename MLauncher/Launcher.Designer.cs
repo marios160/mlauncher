@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.lblEmail = new System.Windows.Forms.Label();
-            this.btnStatus = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txtNick = new System.Windows.Forms.TextBox();
@@ -37,6 +36,14 @@
             this.btnJoin = new System.Windows.Forms.Button();
             this.btnLogout = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lstPlayers = new System.Windows.Forms.ListView();
+            this.id = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.nick = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.kills = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.deaths = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ping = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.team = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.lblTimeleft = new System.Windows.Forms.Label();
             this.lblSlash = new System.Windows.Forms.Label();
             this.lblMaxplayers = new System.Windows.Forms.Label();
             this.lblNumplayers = new System.Windows.Forms.Label();
@@ -45,7 +52,6 @@
             this.lblHostname = new System.Windows.Forms.Label();
             this.lblVersion = new System.Windows.Forms.Label();
             this.chbNofity = new System.Windows.Forms.CheckBox();
-            this.lblTimeleft = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -58,16 +64,6 @@
             this.lblEmail.Size = new System.Drawing.Size(80, 17);
             this.lblEmail.TabIndex = 0;
             this.lblEmail.Text = "useremail";
-            // 
-            // btnStatus
-            // 
-            this.btnStatus.Location = new System.Drawing.Point(12, 68);
-            this.btnStatus.Name = "btnStatus";
-            this.btnStatus.Size = new System.Drawing.Size(92, 41);
-            this.btnStatus.TabIndex = 2;
-            this.btnStatus.Text = "Refresh server status";
-            this.btnStatus.UseVisualStyleBackColor = true;
-            this.btnStatus.Click += new System.EventHandler(this.btnStatus_Click);
             // 
             // label1
             // 
@@ -107,9 +103,9 @@
             // 
             // btnJoin
             // 
-            this.btnJoin.Location = new System.Drawing.Point(128, 68);
+            this.btnJoin.Location = new System.Drawing.Point(16, 68);
             this.btnJoin.Name = "btnJoin";
-            this.btnJoin.Size = new System.Drawing.Size(88, 41);
+            this.btnJoin.Size = new System.Drawing.Size(160, 41);
             this.btnJoin.TabIndex = 7;
             this.btnJoin.Text = "Join game";
             this.btnJoin.UseVisualStyleBackColor = true;
@@ -117,9 +113,9 @@
             // 
             // btnLogout
             // 
-            this.btnLogout.Location = new System.Drawing.Point(238, 68);
+            this.btnLogout.Location = new System.Drawing.Point(182, 68);
             this.btnLogout.Name = "btnLogout";
-            this.btnLogout.Size = new System.Drawing.Size(88, 41);
+            this.btnLogout.Size = new System.Drawing.Size(144, 41);
             this.btnLogout.TabIndex = 8;
             this.btnLogout.Text = "Logout";
             this.btnLogout.UseVisualStyleBackColor = true;
@@ -127,6 +123,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.lstPlayers);
             this.groupBox1.Controls.Add(this.lblTimeleft);
             this.groupBox1.Controls.Add(this.lblSlash);
             this.groupBox1.Controls.Add(this.lblMaxplayers);
@@ -140,6 +137,62 @@
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Status";
+            // 
+            // lstPlayers
+            // 
+            this.lstPlayers.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.id,
+            this.nick,
+            this.kills,
+            this.deaths,
+            this.ping,
+            this.team});
+            this.lstPlayers.Location = new System.Drawing.Point(8, 50);
+            this.lstPlayers.MultiSelect = false;
+            this.lstPlayers.Name = "lstPlayers";
+            this.lstPlayers.Size = new System.Drawing.Size(299, 155);
+            this.lstPlayers.TabIndex = 7;
+            this.lstPlayers.UseCompatibleStateImageBehavior = false;
+            this.lstPlayers.View = System.Windows.Forms.View.Details;
+            // 
+            // id
+            // 
+            this.id.Text = "Id";
+            this.id.Width = 22;
+            // 
+            // nick
+            // 
+            this.nick.Text = "Nick";
+            this.nick.Width = 115;
+            // 
+            // kills
+            // 
+            this.kills.Text = "Kills";
+            this.kills.Width = 36;
+            // 
+            // deaths
+            // 
+            this.deaths.Text = "Deaths";
+            this.deaths.Width = 46;
+            // 
+            // ping
+            // 
+            this.ping.Text = "Ping";
+            this.ping.Width = 34;
+            // 
+            // team
+            // 
+            this.team.Text = "Team";
+            this.team.Width = 42;
+            // 
+            // lblTimeleft
+            // 
+            this.lblTimeleft.AutoSize = true;
+            this.lblTimeleft.Location = new System.Drawing.Point(231, 34);
+            this.lblTimeleft.Name = "lblTimeleft";
+            this.lblTimeleft.Size = new System.Drawing.Size(34, 13);
+            this.lblTimeleft.TabIndex = 6;
+            this.lblTimeleft.Text = "00:00";
             // 
             // lblSlash
             // 
@@ -216,15 +269,6 @@
             this.chbNofity.UseVisualStyleBackColor = true;
             this.chbNofity.CheckedChanged += new System.EventHandler(this.chbNofity_CheckedChanged);
             // 
-            // lblTimeleft
-            // 
-            this.lblTimeleft.AutoSize = true;
-            this.lblTimeleft.Location = new System.Drawing.Point(231, 34);
-            this.lblTimeleft.Name = "lblTimeleft";
-            this.lblTimeleft.Size = new System.Drawing.Size(34, 13);
-            this.lblTimeleft.TabIndex = 6;
-            this.lblTimeleft.Text = "00:00";
-            // 
             // Launcher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -239,7 +283,6 @@
             this.Controls.Add(this.txtNick);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.btnStatus);
             this.Controls.Add(this.lblEmail);
             this.Name = "Launcher";
             this.Text = "Launcher";
@@ -253,7 +296,6 @@
         #endregion
 
         private System.Windows.Forms.Label lblEmail;
-        private System.Windows.Forms.Button btnStatus;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtNick;
@@ -270,5 +312,12 @@
         private System.Windows.Forms.Label lblVersion;
         private System.Windows.Forms.CheckBox chbNofity;
         private System.Windows.Forms.Label lblTimeleft;
+        private System.Windows.Forms.ListView lstPlayers;
+        private System.Windows.Forms.ColumnHeader id;
+        private System.Windows.Forms.ColumnHeader nick;
+        private System.Windows.Forms.ColumnHeader kills;
+        private System.Windows.Forms.ColumnHeader deaths;
+        private System.Windows.Forms.ColumnHeader ping;
+        private System.Windows.Forms.ColumnHeader team;
     }
 }

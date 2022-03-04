@@ -14,12 +14,13 @@ using System.Windows.Forms;
 
 namespace MLauncher
 {
-    static class M
+    static class Main
     {
         static public Dane dane;
-        static public Thread nofifyThread;
+        static public Thread statusThread;
         static public string version = "1.1.0";
         static public Launcher launcher;
+        static public Status status;
 
         [STAThread]
         static void Main()
@@ -30,7 +31,7 @@ namespace MLauncher
                 Update();
                 return;
             }
-            dane = (Dane)M.Deserialize();
+            dane = (Dane)MLauncher.Main.Deserialize();
             if(dane == null)
             {
                 dane = new Dane();
@@ -47,92 +48,62 @@ namespace MLauncher
             }
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            if (!M.dane.Login)
+            if (!MLauncher.Main.dane.Login)
             {
                 Application.Run(new Logowanie());
             }
 
-            if (M.dane.Login)
+            if (MLauncher.Main.dane.Login)
             {
-
                 dane.Zakoduj();
-                M.Serialize(dane);
+                MLauncher.Main.Serialize(dane);
                 dane.Odkoduj();
                 launcher = new Launcher();
+                MLauncher.Main.status = new Status();
+                MLauncher.Main.statusThread = new Thread(new ThreadStart(MLauncher.Main.status.CheckStatus));
+                MLauncher.Main.statusThread.Start();
                 Application.Run(launcher);
             }
 
         }
 
         public static string CalculateMD5Hash(string input)
-
-        {
-
-            // step 1, calculate MD5 hash from input
-
+        { 
             MD5 md5 = System.Security.Cryptography.MD5.Create();
-
             byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
-
             byte[] hash = md5.ComputeHash(inputBytes);
-
-            // step 2, convert byte array to hex string
-
             StringBuilder sb = new StringBuilder();
-
             for (int i = 0; i < hash.Length; i++)
-
             {
-
                 sb.Append(hash[i].ToString("X2"));
-
             }
-
             return sb.ToString();
-
         }
 
         public static void Serialize(Object o)
         {
-
             FileStream fs = new FileStream("mlchr.cfg", FileMode.Create);
-
-            // Construct a BinaryFormatter and use it to serialize the data to the stream.
             BinaryFormatter formatter = new BinaryFormatter();
             try
-            {
-                formatter.Serialize(fs, o);
-            }
+            { formatter.Serialize(fs, o); }
             catch (SerializationException e)
             {
                 Console.WriteLine("Failed to serialize. Reason: " + e.Message);
                 throw;
             }
             finally
-            {
-                fs.Close();
-            }
+            { fs.Close(); }
         }
-
 
         public static Object Deserialize()
         {
-            // Declare the hashtable reference.
             Object o = null;
-
-            // Open the file containing the data that you want to deserialize.
             if (!File.Exists("mlchr.cfg"))
-            {
                 return null;
-            }
-
             FileStream fs = new FileStream("mlchr.cfg", FileMode.Open);
             try
             {
                 BinaryFormatter formatter = new BinaryFormatter();
-
-                // Deserialize the hashtable from the file and 
-                // assign the reference to the local variable.
                 o = (Object)formatter.Deserialize(fs);
             }
             catch (SerializationException e)
@@ -141,11 +112,8 @@ namespace MLauncher
                 throw;
             }
             finally
-            {
-                fs.Close();
-            }
+            { fs.Close();}
             return o;
-
         }
 
         public static string Zakoduj(String kod, String txt)
@@ -168,7 +136,6 @@ namespace MLauncher
                     of = 0;
                 }
             }
-
             return wynik;
         }
 
@@ -200,7 +167,7 @@ namespace MLauncher
         {
             File.Delete("MUpdater.exe");
             var values = new NameValueCollection();
-            values["version"] = M.version;
+            values["version"] = MLauncher.Main.version;
             string odp = PostRequest("http://185.238.74.50/mlauncher/version.php", values);
             if(odp.Equals("Please update MLauncher!"))
             {
